@@ -4,7 +4,7 @@
 
 void leerArchivos(int argc, char *argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "Usa: %s <filename>\n", argv[0]);
+        fprintf(stderr, "Usa: %s <nombreArchivo>\n", argv[0]);
         exit(1);
     }
 
@@ -14,13 +14,13 @@ void leerArchivos(int argc, char *argv[]) {
     // Se abre el archivo en modo lectura
     file = fopen(argv[1], "r");
     if (file == NULL) {
-        perror("Error opening file");
+        perror("Error: Abriendo archivo");
         exit(1);
     }
 
     // Se lee la primera linea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
-        perror("Error reading file");
+        perror("Error: Abriendo archivo");
         fclose(file);
         exit(1);
     }
@@ -30,7 +30,7 @@ void leerArchivos(int argc, char *argv[]) {
     // Se lee la segunda linea del archivo
     int recursosTotales[n]; // Recursos totales
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
-        perror("Error reading file");
+        perror("Error: Abriendo archivo");
         fclose(file);
         exit(1);
     }
@@ -51,7 +51,7 @@ void leerArchivos(int argc, char *argv[]) {
     // Se lee la tercera linea del archivo
     int recursosDisponibles[n]; // Recursos disponibles
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
-        perror("Error reading file");
+        perror("Error: Abriendo archivo");
         fclose(file);
         exit(1);
     }
@@ -71,7 +71,7 @@ void leerArchivos(int argc, char *argv[]) {
 
     // Se lee la cuarta linea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
-        perror("Error reading file");
+        perror("Error: Abriendo archivo");
         fclose(file);
         exit(1);
     }
@@ -86,7 +86,7 @@ void leerArchivos(int argc, char *argv[]) {
 
     for (int i = 0; i < m; i++) {
         if (fgets(buffer, sizeof(buffer), file) == NULL) {
-            perror("Error reading file");
+            perror("Error: Abriendo archivo");
             fclose(file);
             exit(1);
         }
