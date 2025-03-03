@@ -2,23 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include "estructuras.h"
+#include "leerArchivos.h"
 
 void leerArchivos(int argc, char *argv[]) {
-    if (argc < 2) {
-        fprintf(stderr, "Usa: %s <nombreArchivo>\n", argv[0]);
-        exit(1);
-    }
-
+    
     FILE *file;
     char buffer[256];
 
     // Se abre el archivo en modo lectura
-    file = fopen(argv[1], "r");
+    file = fopen(argv[3], "r");
     if (file == NULL) {
         perror("Error: Abriendo archivo");
         exit(1);
     }
-
+    
     // Se lee la primera linea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
@@ -35,7 +32,7 @@ void leerArchivos(int argc, char *argv[]) {
         fclose(file);
         exit(1);
     }
-
+    
     // Se lee la segunda linea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
@@ -43,7 +40,7 @@ void leerArchivos(int argc, char *argv[]) {
         free(recursosTotales);
         exit(1);
     }
-
+    
     // Se separa la cadena por espacios y se almacenan los valores en el arreglo de recursos totales
     char *token = strtok(buffer, " ");
     for (int j = 0; j < n; j++) {
@@ -57,7 +54,7 @@ void leerArchivos(int argc, char *argv[]) {
             exit(1);
         }
     }
-
+    
     // Asignar memoria para recursosDisponibles
     recursosDisponibles = (int *)malloc(n * sizeof(int));
     if (recursosDisponibles == NULL) {
@@ -105,21 +102,25 @@ void leerArchivos(int argc, char *argv[]) {
     // Asignar memoria para las matrices y prioridades
     matrizDeAsignacion = (int **)malloc(m * sizeof(int *));
     matrizRecursosTotales = (int **)malloc(m * sizeof(int *));
+    matrizDeNecesidades = (int **)malloc(m * sizeof(int *));
     prioridades = (int *)malloc(m * sizeof(int));
-    if (matrizDeAsignacion == NULL || matrizRecursosTotales == NULL || prioridades == NULL) {
+    if (matrizDeAsignacion == NULL || matrizRecursosTotales == NULL || prioridades == NULL || matrizDeNecesidades == NULL) {
         perror("Error: Asignando memoria");
         fclose(file);
         free(recursosTotales);
         free(recursosDisponibles);
         free(matrizDeAsignacion);
         free(matrizRecursosTotales);
+        free(matrizDeNecesidades);
         free(prioridades);
         exit(1);
     }
+    
     for (int i = 0; i < m; i++) {
         matrizDeAsignacion[i] = (int *)malloc(n * sizeof(int));
         matrizRecursosTotales[i] = (int *)malloc(n * sizeof(int));
-        if (matrizDeAsignacion[i] == NULL || matrizRecursosTotales[i] == NULL) {
+        matrizDeNecesidades[i] = (int *)malloc(n * sizeof(int));
+        if (matrizDeAsignacion[i] == NULL || matrizRecursosTotales[i] == NULL || matrizDeNecesidades[i] == NULL) {
             perror("Error: Asignando memoria");
             fclose(file);
             free(recursosTotales);
@@ -127,14 +128,16 @@ void leerArchivos(int argc, char *argv[]) {
             for (int k = 0; k <= i; k++) {
                 free(matrizDeAsignacion[k]);
                 free(matrizRecursosTotales[k]);
+                free(matrizDeNecesidades[k]);
             }
             free(matrizDeAsignacion);
             free(matrizRecursosTotales);
+            free(matrizDeNecesidades);
             free(prioridades);
             exit(1);
         }
     }
-
+    
     for (int i = 0; i < m; i++) {
         if (fgets(buffer, sizeof(buffer), file) == NULL) {
             perror("Error: Abriendo archivo");
@@ -172,7 +175,7 @@ void leerArchivos(int argc, char *argv[]) {
                 exit(1);
             }
         }
-
+        
         // Se separa la cadena por espacios y el caracter '|', y se almacenan los valores en la matriz de recursos totales
         for (int j = 0; j < n; j++) {
             if (token != NULL) {
@@ -212,53 +215,12 @@ void leerArchivos(int argc, char *argv[]) {
             exit(1);
         }
     }
-
+    
     for(int i = 0; i < m; i++) {
         for(int j = 0; j < n; j++) {
             matrizDeNecesidades[i][j] = matrizRecursosTotales[i][j] - matrizDeAsignacion[i][j];
         }
     }
-    
-    // Imprimir los recursos totales para verificar
-    printf("Recursos totales: ");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", recursosTotales[i]);
-    }
-    printf("\n");
-
-    // Imprimir los recursos disponibles para verificar
-    printf("Recursos disponibles: ");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", recursosDisponibles[i]);
-    }
-    printf("\n");
-    
-    // Imprimir la matriz de asignacion para verificar
-    printf("Matriz de asignacion:\n");
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d ", matrizDeAsignacion[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-    
-    // Imprimir la matriz de recursos totales para verificar
-    printf("Matriz de recursos totales:\n");
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d ", matrizRecursosTotales[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-
-    // Imprimir las prioridades para verificar
-    printf("Prioridades:\n");
-    for (int i = 0; i < m; i++) {
-        printf("%d ", prioridades[i]);
-    }
-    printf("\n");
 
     // Liberar memoria
     free(recursosTotales);
