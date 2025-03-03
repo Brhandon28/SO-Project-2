@@ -1,18 +1,20 @@
 #ifndef _ESTRUCTURAS_H_
-#define _ESTRUCTURAS_H_ 
+#define _ESTRUCTURAS_H_
 
 #include <stdio.h>
+#include <stdbool.h>
 
+extern int n; // Recursos
+extern int m; // Procesos
 
-int n = 0; //Recursos
-int m = 0; //Procesos
+extern int *recursosTotales; // Recursos totales
+extern int *recursosDisponibles; // Recursos disponibles (available). Tamaño n
+extern int **matrizDeAsignacion; // Matriz de asignación (allocation). Tamaño m x n
+extern int **matrizRecursosTotales; // Matriz de recursos totales (max). Tamaño m x n
+extern int **matrizDeNecesidades; // Matriz de necesidades (need). Tamaño m x n
+extern int *prioridades; // Prioridades de los recursos. Tamaño m
 
-int *recursosTotales; //Recursos totales 
+extern int *work; // Igual a recursosDisponibles
+extern bool *finish; // Tamaño m
 
-int *recursosDisponibles; //Recursos disponibles (available). Tamano n
-int **matrizDeAsignacion; //Matriz de asignacion (allocation). Tamano m x n
-int **matrizRecursosTotales; //Matriz de recursos totales (max). Tamano m x n
-int **matrizDeNecesidades; //Matriz de necesidades (need). Tamano m x n
-int *prioridades; //Prioridades de los recursos. Tamano m
-
-#endif 
+#endif

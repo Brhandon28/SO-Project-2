@@ -1,11 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "estructuras.h"
 #include "leerArchivos.h"
+#include "seguridad.h"
+#include "estructuras.h"
+
+// Definición de variables globales
+int n = 0; // Recursos
+int m = 0; // Procesos
+
+int *recursosTotales; // Recursos totales
+int *recursosDisponibles; // Recursos disponibles (available). Tamaño n
+int **matrizDeAsignacion; // Matriz de asignación (allocation). Tamaño m x n
+int **matrizRecursosTotales; // Matriz de recursos totales (max). Tamaño m x n
+int **matrizDeNecesidades; // Matriz de necesidades (need). Tamaño m x n
+int *prioridades; // Prioridades de los recursos. Tamaño m
+
+int *work; // Igual a recursosDisponibles
+bool *finish; // Tamaño m
 
 void leerArchivos(int argc, char *argv[]) {
-    
     FILE *file;
     char buffer[256];
 
@@ -15,16 +29,16 @@ void leerArchivos(int argc, char *argv[]) {
         perror("Error: Abriendo archivo");
         exit(1);
     }
-    
-    // Se lee la primera linea del archivo
+
+    // Se lee la primera línea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
         exit(1);
     }
-    
-    n = atoi(buffer); // Numero de recursos
-    
+
+    n = atoi(buffer); // Número de recursos
+
     // Asignar memoria para recursosTotales
     recursosTotales = (int *)malloc(n * sizeof(int));
     if (recursosTotales == NULL) {
@@ -32,15 +46,15 @@ void leerArchivos(int argc, char *argv[]) {
         fclose(file);
         exit(1);
     }
-    
-    // Se lee la segunda linea del archivo
+
+    // Se lee la segunda línea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
         free(recursosTotales);
         exit(1);
     }
-    
+
     // Se separa la cadena por espacios y se almacenan los valores en el arreglo de recursos totales
     char *token = strtok(buffer, " ");
     for (int j = 0; j < n; j++) {
@@ -54,7 +68,7 @@ void leerArchivos(int argc, char *argv[]) {
             exit(1);
         }
     }
-    
+
     // Asignar memoria para recursosDisponibles
     recursosDisponibles = (int *)malloc(n * sizeof(int));
     if (recursosDisponibles == NULL) {
@@ -64,7 +78,7 @@ void leerArchivos(int argc, char *argv[]) {
         exit(1);
     }
 
-    // Se lee la tercera linea del archivo
+    // Se lee la tercera línea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
@@ -88,7 +102,7 @@ void leerArchivos(int argc, char *argv[]) {
         }
     }
 
-    // Se lee la cuarta linea del archivo
+    // Se lee la cuarta línea del archivo
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
@@ -97,7 +111,7 @@ void leerArchivos(int argc, char *argv[]) {
         exit(1);
     }
 
-    m = atoi(buffer); // Numero de procesos
+    m = atoi(buffer); // Número de procesos
 
     // Asignar memoria para las matrices y prioridades
     matrizDeAsignacion = (int **)malloc(m * sizeof(int *));
@@ -115,7 +129,7 @@ void leerArchivos(int argc, char *argv[]) {
         free(prioridades);
         exit(1);
     }
-    
+
     for (int i = 0; i < m; i++) {
         matrizDeAsignacion[i] = (int *)malloc(n * sizeof(int));
         matrizRecursosTotales[i] = (int *)malloc(n * sizeof(int));
@@ -137,7 +151,7 @@ void leerArchivos(int argc, char *argv[]) {
             exit(1);
         }
     }
-    
+
     for (int i = 0; i < m; i++) {
         if (fgets(buffer, sizeof(buffer), file) == NULL) {
             perror("Error: Abriendo archivo");
@@ -154,7 +168,7 @@ void leerArchivos(int argc, char *argv[]) {
             exit(1);
         }
 
-        // Se separa la cadena por espacios y el caracter '|', y se almacenan los valores en la matriz de asignacion
+        // Se separa la cadena por espacios y el carácter '|', y se almacenan los valores en la matriz de asignación
         token = strtok(buffer, " |");
         for (int j = 0; j < n; j++) {
             if (token != NULL) {
@@ -175,8 +189,8 @@ void leerArchivos(int argc, char *argv[]) {
                 exit(1);
             }
         }
-        
-        // Se separa la cadena por espacios y el caracter '|', y se almacenan los valores en la matriz de recursos totales
+
+        // Se separa la cadena por espacios y el carácter '|', y se almacenan los valores en la matriz de recursos totales
         for (int j = 0; j < n; j++) {
             if (token != NULL) {
                 matrizRecursosTotales[i][j] = atoi(token);
@@ -215,12 +229,14 @@ void leerArchivos(int argc, char *argv[]) {
             exit(1);
         }
     }
-    
-    for(int i = 0; i < m; i++) {
-        for(int j = 0; j < n; j++) {
+
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
             matrizDeNecesidades[i][j] = matrizRecursosTotales[i][j] - matrizDeAsignacion[i][j];
         }
     }
+
+    estadoSeguro(); // Prueba de estado seguro
 
     // Liberar memoria
     free(recursosTotales);

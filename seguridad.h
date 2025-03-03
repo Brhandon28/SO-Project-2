@@ -1,3 +1,5 @@
-#include <stdbool.h>
+#include <stdlib.h>
+// #include "estructuras.h"
 
-int estadoSeguro(int **matrizDeAsignacion, int **matrizDeNecesidades, int *recursosDisponibles);
+
+int estadoSeguro(matrizDeAsignacion, matrizDeNecesidades, recursosDisponibles);
