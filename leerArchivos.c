@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "estructuras.h"
 
 void leerArchivos(int argc, char *argv[]) {
     if (argc < 2) {
@@ -25,13 +26,21 @@ void leerArchivos(int argc, char *argv[]) {
         exit(1);
     }
     
-    int n = atoi(buffer); // Numero de recursos
+    n = atoi(buffer); // Numero de recursos
     
+    // Asignar memoria para recursosTotales
+    recursosTotales = (int *)malloc(n * sizeof(int));
+    if (recursosTotales == NULL) {
+        perror("Error: Asignando memoria");
+        fclose(file);
+        exit(1);
+    }
+
     // Se lee la segunda linea del archivo
-    int recursosTotales[n]; // Recursos totales
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
+        free(recursosTotales);
         exit(1);
     }
 
@@ -44,15 +53,26 @@ void leerArchivos(int argc, char *argv[]) {
         } else {
             fprintf(stderr, "Error: no hay suficientes valores\n");
             fclose(file);
+            free(recursosTotales);
             exit(1);
         }
     }
 
+    // Asignar memoria para recursosDisponibles
+    recursosDisponibles = (int *)malloc(n * sizeof(int));
+    if (recursosDisponibles == NULL) {
+        perror("Error: Asignando memoria");
+        fclose(file);
+        free(recursosTotales);
+        exit(1);
+    }
+
     // Se lee la tercera linea del archivo
-    int recursosDisponibles[n]; // Recursos disponibles
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
+        free(recursosTotales);
+        free(recursosDisponibles);
         exit(1);
     }
 
@@ -65,6 +85,8 @@ void leerArchivos(int argc, char *argv[]) {
         } else {
             fprintf(stderr, "Error: no hay suficientes valores\n");
             fclose(file);
+            free(recursosTotales);
+            free(recursosDisponibles);
             exit(1);
         }
     }
@@ -73,21 +95,59 @@ void leerArchivos(int argc, char *argv[]) {
     if (fgets(buffer, sizeof(buffer), file) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
+        free(recursosTotales);
+        free(recursosDisponibles);
         exit(1);
     }
 
-    int m = atoi(buffer); // Numero de procesos
-    // printf("Numero de procesos: %d\n", m);
+    m = atoi(buffer); // Numero de procesos
 
-    // Se lee el resto del archivo
-    int matrizDeAsignacion[m][n]; // Asignacion de recursos
-    int matrizRecursosTotales[m][n]; // Total de recursos
-    int prioridades[m]; // Prioridades
+    // Asignar memoria para las matrices y prioridades
+    matrizDeAsignacion = (int **)malloc(m * sizeof(int *));
+    matrizRecursosTotales = (int **)malloc(m * sizeof(int *));
+    prioridades = (int *)malloc(m * sizeof(int));
+    if (matrizDeAsignacion == NULL || matrizRecursosTotales == NULL || prioridades == NULL) {
+        perror("Error: Asignando memoria");
+        fclose(file);
+        free(recursosTotales);
+        free(recursosDisponibles);
+        free(matrizDeAsignacion);
+        free(matrizRecursosTotales);
+        free(prioridades);
+        exit(1);
+    }
+    for (int i = 0; i < m; i++) {
+        matrizDeAsignacion[i] = (int *)malloc(n * sizeof(int));
+        matrizRecursosTotales[i] = (int *)malloc(n * sizeof(int));
+        if (matrizDeAsignacion[i] == NULL || matrizRecursosTotales[i] == NULL) {
+            perror("Error: Asignando memoria");
+            fclose(file);
+            free(recursosTotales);
+            free(recursosDisponibles);
+            for (int k = 0; k <= i; k++) {
+                free(matrizDeAsignacion[k]);
+                free(matrizRecursosTotales[k]);
+            }
+            free(matrizDeAsignacion);
+            free(matrizRecursosTotales);
+            free(prioridades);
+            exit(1);
+        }
+    }
 
     for (int i = 0; i < m; i++) {
         if (fgets(buffer, sizeof(buffer), file) == NULL) {
             perror("Error: Abriendo archivo");
             fclose(file);
+            free(recursosTotales);
+            free(recursosDisponibles);
+            for (int k = 0; k < m; k++) {
+                free(matrizDeAsignacion[k]);
+                free(matrizRecursosTotales[k]);
+            }
+            free(matrizDeAsignacion);
+            free(matrizRecursosTotales);
+            free(prioridades);
             exit(1);
         }
 
@@ -100,6 +160,15 @@ void leerArchivos(int argc, char *argv[]) {
             } else {
                 fprintf(stderr, "Error: no hay suficientes valores\n");
                 fclose(file);
+                free(recursosTotales);
+                free(recursosDisponibles);
+                for (int k = 0; k < m; k++) {
+                    free(matrizDeAsignacion[k]);
+                    free(matrizRecursosTotales[k]);
+                }
+                free(matrizDeAsignacion);
+                free(matrizRecursosTotales);
+                free(prioridades);
                 exit(1);
             }
         }
@@ -112,6 +181,15 @@ void leerArchivos(int argc, char *argv[]) {
             } else {
                 fprintf(stderr, "Error: no hay suficientes valores\n");
                 fclose(file);
+                free(recursosTotales);
+                free(recursosDisponibles);
+                for (int k = 0; k < m; k++) {
+                    free(matrizDeAsignacion[k]);
+                    free(matrizRecursosTotales[k]);
+                }
+                free(matrizDeAsignacion);
+                free(matrizRecursosTotales);
+                free(prioridades);
                 exit(1);
             }
         }
@@ -122,6 +200,15 @@ void leerArchivos(int argc, char *argv[]) {
         } else {
             fprintf(stderr, "Error: no hay suficientes valores para prioridades\n");
             fclose(file);
+            free(recursosTotales);
+            free(recursosDisponibles);
+            for (int k = 0; k < m; k++) {
+                free(matrizDeAsignacion[k]);
+                free(matrizRecursosTotales[k]);
+            }
+            free(matrizDeAsignacion);
+            free(matrizRecursosTotales);
+            free(prioridades);
             exit(1);
         }
     }
@@ -166,6 +253,17 @@ void leerArchivos(int argc, char *argv[]) {
         printf("%d ", prioridades[i]);
     }
     printf("\n");
+
+    // Liberar memoria
+    free(recursosTotales);
+    free(recursosDisponibles);
+    for (int i = 0; i < m; i++) {
+        free(matrizDeAsignacion[i]);
+        free(matrizRecursosTotales[i]);
+    }
+    free(matrizDeAsignacion);
+    free(matrizRecursosTotales);
+    free(prioridades);
 
     fclose(file);
 }
