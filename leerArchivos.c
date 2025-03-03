@@ -234,4 +234,5 @@ void leerArchivos(int argc, char *argv[]) {
     free(prioridades);
 
     fclose(file);
+
 }
