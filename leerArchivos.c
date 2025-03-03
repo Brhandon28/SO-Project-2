@@ -212,6 +212,12 @@ void leerArchivos(int argc, char *argv[]) {
             exit(1);
         }
     }
+
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            matrizDeNecesidades[i][j] = matrizRecursosTotales[i][j] - matrizDeAsignacion[i][j];
+        }
+    }
     
     // Imprimir los recursos totales para verificar
     printf("Recursos totales: ");
