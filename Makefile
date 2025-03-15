@@ -1,7 +1,7 @@
 TARGET = main
-SRC = main.c leerArchivos.c argumentos.c seguridad.c
+SRC = main.c leerArchivos.c argumentos.c seguridad.c terminarProcesos.c
 OBJ = $(SRC:.c=.o)
-INCLUDE = argumentos.h leerArchivos.h estructuras.h seguridad.h
+INCLUDE = argumentos.h leerArchivos.h estructuras.h seguridad.h terminarProcesos.h
 CFLAGS = -g 
 LDLIBS = -pthread -lm
 CC = gcc

@@ -3,7 +3,8 @@
 #include <string.h>
 #include "leerArchivos.h"
 #include "seguridad.h"
-#include "estructuras.h"
+//#include "estructuras.h"
+#include "terminarProcesos.h"
 
 // Definición de variables globales
 int n = 0; // Recursos
@@ -24,7 +25,7 @@ void leerArchivos(int argc, char *argv[]) {
     char buffer[256];
 
     // Se abre el archivo en modo lectura
-    file = fopen(argv[3], "r");
+    file = fopen(argv[1], "r");
     if (file == NULL) {
         perror("Error: Abriendo archivo");
         exit(1);
@@ -236,7 +237,8 @@ void leerArchivos(int argc, char *argv[]) {
         }
     }
 
-    estadoSeguro(); // Prueba de estado seguro
+    int esSeguro = estadoSeguro(); // Prueba de estado seguro
+    verificarBloqueados(); // Verificar procesos bloqueados
 
     // Liberar memoria
     free(recursosTotales);

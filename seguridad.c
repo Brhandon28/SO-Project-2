@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "seguridad.h"
-#include "estructuras.h"
+//#include "estructuras.h"
+
 
 int estadoSeguro() {
+
+    int *safe_sequence = (int *)malloc(m * sizeof(int));
+
 
     // Asignar memoria para work
     work = (int *)malloc(n * sizeof(int));
@@ -48,6 +52,7 @@ int estadoSeguro() {
                     for (int k = 0; k < n; k++) {
                         work[k] += matrizDeAsignacion[i][k];
                     }
+                    safe_sequence[count] = i;
                     finish[i] = true;
                     found = true;
                     count++;
@@ -58,16 +63,21 @@ int estadoSeguro() {
         if (found == false) {
             printf("El sistema no esta en estado seguro\n");
             free(work);
-            free(finish);
+            free(safe_sequence);
+            //free(finish);
             return 0;
         }
     }
     // Si se recorrieron todos los procesos y se encontraron, el sistema esta en estado seguro
     printf("El sistema esta en estado seguro\n");
 
+    for(int i = 0; i < m; i++) {
+        printf("P%d\n", safe_sequence[i]);
+    }
+
     // Liberar memoria
     free(work);
-    free(finish);
+    //free(finish);
 
     return 1;
 }

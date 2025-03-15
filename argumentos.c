@@ -27,31 +27,35 @@ int es_archivo_valido(const char *ruta) {
 void identificar_argumentos(int argc, char *argv[]) {
 
     //Comprobar que hay 4 argumentos
-    if(argc > 4) {
+    if(argc > 2) {
         printf("Hay muchos argumentos\n");
         printf("Usa: %s -m d <nombre del archivo>\n", argv[0]);
         exit(1);
     } 
-    else if(argc < 4) {
+    else if(argc < 2) {
         printf("Faltan argumentos\n");
         printf("Usa: %s -m d <nombre del archivo>\n", argv[0]);
         exit(1);
     }
 
+    /*
     //Comprobacion segundo argumento
     if(strcmp(argv[1], "-m") != 0) {
         printf("Usa: %s -m d <nombre del archivo>\n", argv[0]);
         exit(1);
     } 
+    */
 
+   /*
     //Comprobacion tercer argumento
     if(strcmp(argv[2], "d") != 0) {
         printf("Usa: %s %s d <nombre del archivo>\n", argv[0], argv[1]);
         exit(1);
     }
+    */
 
-    //Comprobacion cuarto argumento
-    if(es_archivo_valido(argv[3]) == 0) {
+    //Comprobacion segundo argumento
+    if(es_archivo_valido(argv[1]) == 0) {
         exit(1);
     }
 }
