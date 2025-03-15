@@ -17,4 +17,6 @@ extern int *prioridades; // Prioridades de los recursos. Tamaño m
 extern int *work; // Igual a recursosDisponibles
 extern bool *finish; // Tamaño m
 
+extern int *secuenciaSegura; // Arreglo que indica la secuencia de ejecucion que mantiene el estado seguro
+
 #endif
