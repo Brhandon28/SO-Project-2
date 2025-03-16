@@ -1,8 +1,10 @@
 # Proyecto-2
 
-<p align="center">
-    # Simulador de Prevención de Interbloqueo (deadlock)
-</p>
+<h1 align="center">
+<strong>
+     Simulador de Prevención de Interbloqueo (deadlock)
+</strong>
+</h1>
 
 ## Propósito
 
