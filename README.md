@@ -17,7 +17,7 @@ prevención de interbloqueo (deadlock) en sistemas operativos. Los objetivos esp
     <li> <strong>Documentar</strong> el diseño y el uso del simulador.</li>
 
 
-**Consideraciones de implementación:**
+## Consideraciones de implementación:
 El formato de ejecución de su programa debe ser el siguiente:
 <p align="center">
     ./prevencion < nombreDelArchivo >
