@@ -24,7 +24,6 @@ int terminarProcesoPrioridad(int count, int *secuenciaSegura) {
     proceso = prioridadMenor();
 
     if(finish[proceso] == false) {
-        printf("\nProceso P%d terminado\n", proceso);
         for(int i = 0; i < n; i++) {
             work[i] += matrizDeAsignacion[proceso][i];
         }
