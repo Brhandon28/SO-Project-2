@@ -140,7 +140,7 @@ void imprimirSecuenciaSegura(int *secuenciaSegura){
         while(impreso != NULL){
 
             if(impreso->fueTerminado == 1 && impreso->idProceso == secuenciaSegura[i]){
-                printf(" terminado, ");
+                printf(" Terminado, ");
                 break;
             }
             impreso = impreso->siguiente;
