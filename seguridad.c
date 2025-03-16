@@ -14,7 +14,8 @@ int estadoSeguro() {
     int idPrioridad = 0; //Id del proceso con prioridad menor
 
     bool found = false; //flag para verificar si se encontro un proceso
-
+    
+    // Asignar memoria para secuenciaSegura
     int *secuenciaSegura = (int *)malloc(m * sizeof(int));
 
     // Asignar memoria para work
@@ -58,20 +59,20 @@ int estadoSeguro() {
                 if (j == n) {
                     
                     for (int k = 0; k < n; k++) {
-                        work[k] += matrizDeAsignacion[i][k];
+                        work[k] += matrizDeAsignacion[i][k]; //Se liberan los recursos asignados al proceso
                     }
                     
-                    secuenciaSegura[count] = i;
-                    finish[i] = true;
-                    found = true;
-                    insertarTerminados(i, 0);
+                    secuenciaSegura[count] = i; //Se inserta el proceso en la secuencia segura de asignacion de reursos
+                    finish[i] = true; //Se marca el proceso como finalizado
+                    found = true; //Se indica que se encontró un proceso
+                    insertarTerminados(i, 0); //Se inserta el proceso en la lista de terminados como un proceso finalizado
                     count++;
                 }
             }
         }
         // Si no se encontro ningun proceso que cumpla las condiciones, el sistema no esta en estado seguro
         if (found == false) {
-            countBloqueados++;
+            countBloqueados++; //Se incrementa el contador de procesos bloqueados
             printf("Es un estado inseguro\n");
             printf("Procesos involucrados ");
             verificarBloqueados();
@@ -84,6 +85,8 @@ int estadoSeguro() {
         }
     }
     
+    /*****************Prints finales*********************/
+
     // Si se recorrieron todos los procesos y el sistema estuvo en estado inseguro
     if(countBloqueados>0){ 
         printf("Hubo un estado inseguro\n\n");
@@ -100,7 +103,7 @@ int estadoSeguro() {
     printf("\n");
 
 
-    // Liberar memoria
+    /*******Liberar memoria*******/ 
     free(work);
     liberarListaBloqueados();
     liberarListaTerminados();

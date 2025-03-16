@@ -26,7 +26,6 @@ void insertarTerminados(int idProceso, int fueTerminado) {
     }
 }
 
-
 void insertarBloqueados(int idProceso, int prioridad) {
 
     struct bloqueados *nuevoBloqueado = (struct bloqueados *)malloc(sizeof(struct bloqueados));
@@ -105,9 +104,9 @@ void imprimirlistaTerminados(){
 
         printf("P%d ", impreso->idProceso);
         if(impreso->fueTerminado == 1){
-            printf("terminado\n");
+            printf("Terminado\n");
         }else{
-            printf("Proceso finalizado\n");
+            printf("Finalizado\n");
         }
         impreso = impreso->siguiente;
     }
