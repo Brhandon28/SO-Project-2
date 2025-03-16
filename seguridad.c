@@ -73,7 +73,7 @@ int estadoSeguro() {
         // Si no se encontro ningun proceso que cumpla las condiciones, el sistema no esta en estado seguro
         if (found == false) {
             countBloqueados++; //Se incrementa el contador de procesos bloqueados
-            printf("Es un estado inseguro\n");
+            printf("\nEs un estado inseguro\n");
             printf("Procesos involucrados ");
             verificarBloqueados();
             imprimirRecursos();
@@ -89,9 +89,9 @@ int estadoSeguro() {
 
     // Si se recorrieron todos los procesos y el sistema estuvo en estado inseguro
     if(countBloqueados>0){ 
-        printf("Hubo un estado inseguro\n\n");
+        printf("\nHubo un estado inseguro\n\n");
     }else{ // Si se recorrieron todos los procesos y se encontraron, el sistema esta en estado seguro
-        printf("Es un estado seguro\n\n");
+        printf("\nEs un estado seguro\n\n");
     }
 
     printf("Estado de los procesos: \n\n");
