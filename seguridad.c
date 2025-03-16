@@ -41,6 +41,7 @@ int estadoSeguro() {
         finish[i] = false;
     }
 
+    // Verificar si hay procesos que puedan finalizar su ejecución
     while (count < m) {
         found = false;
         for (int i = 0; i < m; i++) {
@@ -77,51 +78,8 @@ int estadoSeguro() {
             imprimirRecursos();
             printf("\n");
 
-            desplegarMenu();
-
-            char opcion[10];
-            char proceso[10];
-
-            fgets(opcion, 10, stdin);
-
-            switch(opcion[0]){
-                case '1':
-                //Obtenemos el id del proceso aleatorio
-                    idAleatorio = terminarProcesoAleatorio(count, secuenciaSegura);
-                //verificamos si el id es mayor o igual a 0, insertamos el proceso en la lista de terminados
-                    if(idAleatorio >= 0){
-                        insertarTerminados(idAleatorio, 1);  
-                        count++;
-                    }
-                    break;
-                case '2':
-                //obtenemos el id del proceso con prioridad menor
-                    idPrioridad = terminarProcesoPrioridad(count, secuenciaSegura);
-                //insertamos el proceso en la lista de terminados
-                    insertarTerminados(idPrioridad, 1);  
-                    count++;                    
-                    break;
-                case '3':
-                    printf("Ingrese el proceso a terminar: ");
-                    //Obtenemos desde la entrada estandar el proceso a terminar
-                    fgets(proceso, 10, stdin);
-                    //verificamos que el proceso sea un id valido
-                    while(atoi(proceso)<0 || atoi(proceso)>=m){
-                        printf("No es un id de proceso, intente de nuevo ");
-                        fgets(proceso, 10, stdin);
-                    }
-                    //terminamos el proceso dado por el usuario
-                    if(terminarProcesoSeleccionado(atoi(proceso), count, secuenciaSegura)){
-                        insertarTerminados(atoi(proceso), 1);  
-                        count++;
-                    }
-                    break;
-                case '4':
-                    exit(0);
-                    break;
-                default:
-                    printf("Opcion no valida\n");
-                    break;
+            if(desplegarMenu(count, secuenciaSegura)>0){
+                count++;
             }
         }
     }

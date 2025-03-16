@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void desplegarMenu();
+//Menu de opciones para terminar procesos
+int desplegarMenu(int count, int *secuenciaSegura);
 
 #endif

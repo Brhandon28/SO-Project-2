@@ -5,6 +5,7 @@
 #include "operacionesEstructuras.h"
 #include <time.h>
 
+//Funcion que verifica si un proceso esta contenido en la lista de bloqueados
 void verificarBloqueados() {
     int *bloqueados = (int *)malloc(m * sizeof(int));
     for(int i = 0; i < m; i++) {
@@ -17,6 +18,7 @@ void verificarBloqueados() {
     imprimirListaBloqueados();
 }
 
+//Funcion para terminar un proceso aleatorio
 int terminarProcesoAleatorio(int count, int *secuenciaSegura) {
     
     srand(time(NULL));
@@ -40,6 +42,7 @@ int terminarProcesoAleatorio(int count, int *secuenciaSegura) {
     return -1;
 }
 
+//Funcion para obtener el proceso con menor prioridad
 int terminarProcesoPrioridad(int count, int *secuenciaSegura) {
     
     int proceso = 0;
@@ -57,6 +60,7 @@ int terminarProcesoPrioridad(int count, int *secuenciaSegura) {
     return proceso;
 }
 
+//Funcion para terminar un proceso seleccionado
 int terminarProcesoSeleccionado(int proceso, int count, int *secuenciaSegura) {
     if(finish[proceso] == false) {
         printf("\nProceso P%d terminado\n", proceso);
