@@ -20,7 +20,7 @@ int desplegarMenu(int count, int* secuenciaSegura){
     switch(opcion[0]){
         case '1': //Terminar proceso aleatorio
 
-            printf("\nEl algoritmo finalizo, el estado es inseguro\n\n");
+            printf("\nAlgoritmo finalizado\n\n");
             exit(0);
         break;
         case '2': //Terminar proceso con prioridad menor
