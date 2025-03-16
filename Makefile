@@ -1,4 +1,4 @@
-TARGET = main
+TARGET = prevencion
 SRC = main.c leerArchivos.c argumentos.c operacionesEstructuras.c seguridad.c terminarProcesos.c menu.c
 OBJ = $(SRC:.c=.o)
 INCLUDE = argumentos.h leerArchivos.h estructuras.h operacionesEstructuras.h seguridad.h terminarProcesos.h menu.h
