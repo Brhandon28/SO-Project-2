@@ -2,11 +2,11 @@
 #define _BLOQUEADOS_H_
 #include <stdlib.h>
 //#include "seguridad.h"
-#include "estructuras.h"
 
 void verificarBloqueados();
-int terminarProcesoSeleccionado(int proceso);
-int terminarProcesoPrioridad(int proceso);
-int terminarProcesoAleatorio(int proceso);
+int terminarProcesoAleatorio(int count, int *secuenciaSegura);
+int terminarProcesoPrioridad(int count, int *secuenciaSegura);
+int terminarProcesoSeleccionado(int proceso, int count, int *secuenciaSegura); 
+
 
 #endif

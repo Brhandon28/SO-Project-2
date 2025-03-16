@@ -3,7 +3,7 @@
 #include <string.h>
 #include "leerArchivos.h"
 #include "seguridad.h"
-//#include "estructuras.h"
+#include "estructuras.h"
 #include "terminarProcesos.h"
 
 // Definición de variables globales
@@ -238,7 +238,7 @@ void leerArchivos(int argc, char *argv[]) {
     }
 
     int esSeguro = estadoSeguro(); // Prueba de estado seguro
-    verificarBloqueados(); // Verificar procesos bloqueados
+    //verificarBloqueados(); // Verificar procesos bloqueados
 
     // Liberar memoria
     free(recursosTotales);

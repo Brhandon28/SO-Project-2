@@ -17,6 +17,23 @@ extern int *prioridades; // Prioridades de los recursos. Tamaño m
 extern int *work; // Igual a recursosDisponibles
 extern bool *finish; // Tamaño m
 
-extern int *secuenciaSegura; // Arreglo que indica la secuencia de ejecucion que mantiene el estado seguro
+//Estructura de datos de tipo pila que contendra los procesos bloqueados
+struct bloqueados{
+    int idProceso;
+    int prioridad;
+    struct bloqueados *siguiente;
+};
+
+//Estructura de datos de tipo pila que contendra los procesos terminados
+struct terminados{
+    int idProceso;
+    int fueTerminado;
+    struct terminados *siguiente;
+};
+
+extern struct bloqueados *listaBloqueados;
+extern struct terminados *listaTerminados;
+
+extern int *secuenciaSegura; // Arreglo que indica la secuencia de asignacion de recursos segura
 
 #endif
