@@ -26,11 +26,9 @@ int desplegarMenu(int count, int* secuenciaSegura){
         case '2': //Terminar proceso con prioridad menor
 
             //obtenemos el id del proceso con prioridad menor
-            idPrioridad = terminarProcesoPrioridad(count, secuenciaSegura);
-            //insertamos el proceso en la lista de terminados
-            insertarTerminados(idPrioridad, 1);  
-            return 1;
-
+            if(terminarProcesoPrioridad(count, secuenciaSegura)){
+                return 1;
+            }
         break;
         default:
             printf("Opcion no valida\n");

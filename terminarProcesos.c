@@ -29,7 +29,11 @@ int terminarProcesoPrioridad(int count, int *secuenciaSegura) {
         }
         secuenciaSegura[count] = proceso;
         finish[proceso] = true;
+        //insertamos el proceso en la lista de terminados
+        insertarTerminados(proceso, 1);  
+        //eliminamos el proceso de la lista de bloqueados
         eliminarBloqueado(proceso);
+        return 1;
     }
-    return proceso;
+    return 0;
 }
