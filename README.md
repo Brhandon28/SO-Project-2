@@ -35,20 +35,16 @@ los procesos que faltan por finalizar, Ejemplo:
     Recursos disponibles 2 3 1
 
 
-Para este algoritmo del banquero modificado, en este estado inseguro, se debe dar la opción al
-usuario de finalizar el algoritmo o terminar los procesos 1 a 1 hasta tener los recursos suficientes
-para continuar con el algoritmo, por cada proceso terminado continuar con el algoritmo y la
-asignación de recursos, hasta que todos los procesos finalicen, los procesos terminados a la
-fuerza deben ser clasificados como procesos terminados.
+Para este algoritmo del banquero modificado, en este estado inseguro, se debe dar la opción al usuario de finalizar el algoritmo o terminar los procesos 1 a 1 hasta tener los recursos suficientes para continuar con el algoritmo, por cada proceso terminado continuar con el algoritmo y la asignación de recursos, hasta que todos los procesos finalicen, los procesos terminados a la fuerza deben ser clasificados como procesos terminados.
+
 Implementar alguno de estos tres criterios para elegir un proceso a terminar y apropiarse de sus
 recursos:
 
 - Aleatorio
 - Prioridad, donde se termina el proceso con menor prioridad.
 - Selectivo, donde 0 es el proceso 0, 1 es el proceso 1 2 es el proceso 2...
-Si el algoritmo termina y encuentra un estado seguro, imprimir el posible orden de ejecución de
-los procesos y asignación de recursos. Por cada proceso debe imprimir su estado si finalizo su
-ejecución o fue terminado para apropiarse de sus recursos. Ejemplo:
+
+Si el algoritmo termina y encuentra un estado seguro, imprimir el posible orden de ejecución de los procesos y asignación de recursos. Por cada proceso debe imprimir su estado si finalizo su ejecución o fue terminado para apropiarse de sus recursos. Ejemplo:
 
 
     Es un estado seguro
