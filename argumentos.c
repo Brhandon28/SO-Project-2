@@ -29,13 +29,13 @@ void identificar_argumentos(int argc, char *argv[]) {
     //Comprobar que hay máximo 2 argumentos
     if(argc > 2) {
         printf("Hay muchos argumentos\n");
-        printf("Usa: %s -m d <nombre del archivo>\n", argv[0]);
+        printf("Usa: %s <nombre del archivo>\n", argv[0]);
         exit(1);
     } 
     //Comprobar que hay mínimo 2 argumentos
     else if(argc < 2) { 
         printf("Faltan argumentos\n");
-        printf("Usa: %s -m d <nombre del archivo>\n", argv[0]);
+        printf("Usa: %s <nombre del archivo>\n", argv[0]);
         exit(1);
     }
 
