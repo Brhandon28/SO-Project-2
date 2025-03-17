@@ -7,7 +7,7 @@
 </h1>
 
 <div>
-<h1>Propósito</h1>
+<h2>Propósito</h2>
 
 El propósito de este proyecto es desarrollar un simulador que implemente un algoritmo de
 prevención de interbloqueo (deadlock) en sistemas operativos. Los objetivos específicos son:
