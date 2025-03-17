@@ -1,12 +1,16 @@
 #ifndef _BLOQUEADOS_H_
 #define _BLOQUEADOS_H_
 #include <stdlib.h>
-//#include "seguridad.h"
 
+//Verifica si un proceso esta contenido en la lista de bloqueados y lo inserta si no lo esta
 void verificarBloqueados();
-int terminarProcesoAleatorio(int count, int *secuenciaSegura);
-int terminarProcesoPrioridad(int count, int *secuenciaSegura);
-int terminarProcesoSeleccionado(int proceso, int count, int *secuenciaSegura); 
+
+/*********************Criterio para terminar los proceso*********************/
+
+//termina el proceso con menor prioridad
+int terminarProcesoPrioridad(int count, int *secuenciaSegura); //termina el proceso con menor prioridad
+
+/****************************************************************************/ 
 
 
 #endif
