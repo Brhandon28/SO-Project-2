@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "leerArchivos.h"
-#include "estructuras.h"
-#include "seguridad.h"
+#include <CUnit/Basic.h>
+#include "../estructuras.h"
+// #include "seguridad.h"
 
 // Definición de variables globales
 int n = 0; // Recursos
@@ -31,7 +31,7 @@ char *leerLineaNoVacia(FILE *file, char *buffer, size_t size) {
     return NULL;
 }
 
-void leerArchivos(int argc, char *argv[]) {
+int leerArchivos(int argc, char *argv[]) {
     FILE *file;
     char buffer[256];
 
@@ -39,14 +39,14 @@ void leerArchivos(int argc, char *argv[]) {
     file = fopen(argv[1], "r");
     if (file == NULL) {
         perror("Error: Abriendo archivo");
-        exit(1);
+        return 1;
     }
 
     // Se lee la primera línea del archivo
     if (leerLineaNoVacia(file, buffer, sizeof(buffer)) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
-        exit(1);
+        return 1;
     }
 
     n = atoi(buffer); // Número de recursos
@@ -56,7 +56,7 @@ void leerArchivos(int argc, char *argv[]) {
     if (recursosTotales == NULL) {
         perror("Error: Asignando memoria");
         fclose(file);
-        exit(1);
+        return 1;
     }
 
     // Se lee la segunda línea del archivo
@@ -64,7 +64,7 @@ void leerArchivos(int argc, char *argv[]) {
         perror("Error: Abriendo archivo");
         fclose(file);
         free(recursosTotales);
-        exit(1);
+        return 1;
     }
 
     // Se separa la cadena por espacios y se almacenan los valores en el arreglo de recursos totales
@@ -77,7 +77,7 @@ void leerArchivos(int argc, char *argv[]) {
             fprintf(stderr, "Error: no hay suficientes valores\n");
             fclose(file);
             free(recursosTotales);
-            exit(1);
+            return 1;
         }
     }
 
@@ -87,7 +87,7 @@ void leerArchivos(int argc, char *argv[]) {
         perror("Error: Asignando memoria");
         fclose(file);
         free(recursosTotales);
-        exit(1);
+        return 1;
     }
 
     // Se lee la tercera línea del archivo
@@ -96,7 +96,7 @@ void leerArchivos(int argc, char *argv[]) {
         fclose(file);
         free(recursosTotales);
         free(recursosDisponibles);
-        exit(1);
+        return 1;
     }
 
     // Se separa la cadena por espacios y se almacenan los valores en el arreglo de recursos disponibles
@@ -110,7 +110,7 @@ void leerArchivos(int argc, char *argv[]) {
             fclose(file);
             free(recursosTotales);
             free(recursosDisponibles);
-            exit(1);
+            return 1;
         }
     }
 
@@ -120,7 +120,7 @@ void leerArchivos(int argc, char *argv[]) {
         fclose(file);
         free(recursosTotales);
         free(recursosDisponibles);
-        exit(1);
+        return 1;
     }
 
     m = atoi(buffer); // Número de procesos
@@ -139,7 +139,7 @@ void leerArchivos(int argc, char *argv[]) {
         free(matrizRecursosTotales);
         free(matrizDeNecesidades);
         free(prioridades);
-        exit(1);
+        return 1;
     }
 
     for (int i = 0; i < m; i++) {
@@ -160,7 +160,7 @@ void leerArchivos(int argc, char *argv[]) {
             free(matrizRecursosTotales);
             free(matrizDeNecesidades);
             free(prioridades);
-            exit(1);
+            return 1;
         }
     }
 
@@ -179,7 +179,7 @@ void leerArchivos(int argc, char *argv[]) {
             free(matrizRecursosTotales);
             free(matrizDeNecesidades);
             free(prioridades);
-            exit(1);
+            return 1;
         }
 
         // Se separa la cadena por espacios y el carácter '|', y se almacenan los valores en la matriz de asignación
@@ -202,7 +202,7 @@ void leerArchivos(int argc, char *argv[]) {
                 free(matrizRecursosTotales);
                 free(matrizDeNecesidades);
                 free(prioridades);
-                exit(1);
+                return 1;
             }
         }
 
@@ -225,7 +225,7 @@ void leerArchivos(int argc, char *argv[]) {
                 free(matrizRecursosTotales);
                 free(matrizDeNecesidades);
                 free(prioridades);
-                exit(1);
+                return 1;
             }
         }
 
@@ -246,7 +246,7 @@ void leerArchivos(int argc, char *argv[]) {
             free(matrizRecursosTotales);
             free(matrizDeNecesidades);
             free(prioridades);
-            exit(1);
+            return 1;
         }
     }
 
@@ -256,20 +256,41 @@ void leerArchivos(int argc, char *argv[]) {
         }
     }
 
-    estadoSeguro();
-
-    // Liberar memoria
-    free(recursosTotales);
-    free(recursosDisponibles);
-    for (int i = 0; i < m; i++) {
-        free(matrizDeAsignacion[i]);
-        free(matrizRecursosTotales[i]);
-        free(matrizDeNecesidades[i]);
-    }
-    free(matrizDeAsignacion);
-    free(matrizRecursosTotales);
-    free(matrizDeNecesidades);
-    free(prioridades);
-
     fclose(file);
+    return 0;
+}
+
+// Función de prueba para leerArchivos
+void test_leerArchivos() {
+    // Crear un archivo de prueba
+    FILE *file = fopen("archivo_valido.txt", "w");
+    fprintf(file, "3\n10 5 7\n3 2 2\n5\n1 0 0 | 7 5 3 | 1\n2 0 0 | 3 2 2 | 2\n3 0 2 | 9 0 2 | 3\n2 1 1 | 2 2 2 | 4\n0 0 2 | 4 3 3 | 5\n");
+    fclose(file);
+
+    // Prueba con archivo válido
+    char *argv1[] = {"./prevencion", "archivo_valido.txt"};
+    CU_ASSERT_EQUAL(leerArchivos(2, argv1), 0);
+
+    // Prueba con archivo inexistente
+    char *argv2[] = {"./prevencion", "archivo_inexistente.txt"};
+    CU_ASSERT_EQUAL(leerArchivos(2, argv2), 1);
+
+    // Prueba con archivo vacío
+    file = fopen("archivo_vacio.txt", "w");
+    fclose(file);
+    char *argv3[] = {"./prevencion", "archivo_vacio.txt"};
+    CU_ASSERT_EQUAL(leerArchivos(2, argv3), 1);
+
+    // Limpiar archivos de prueba
+    remove("archivo_valido.txt");
+    remove("archivo_vacio.txt");
+}
+
+int main() {
+    CU_initialize_registry();
+    CU_pSuite suite = CU_add_suite("leerArchivos", 0, 0);
+    CU_add_test(suite, "test_leerArchivos", test_leerArchivos);
+    CU_basic_run_tests();
+    CU_cleanup_registry();
+    return 0;
 }
