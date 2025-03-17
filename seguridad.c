@@ -10,7 +10,6 @@ int estadoSeguro() {
 
     int count = 0; //Contador de procesos terminados
     int countBloqueados = 0; //Contador de procesos bloqueados
-    int idPrioridad = 0; //Id del proceso con prioridad menor
 
     bool found = false; //flag para verificar si se encontro un proceso
     
