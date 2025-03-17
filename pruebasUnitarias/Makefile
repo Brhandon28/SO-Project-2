@@ -8,10 +8,10 @@ CFLAGS = -Wall -Wextra -g -I.
 LIBS = -lcunit
 
 # Archivos de pruebas
-TEST_SRC = testArgumentos.c
+TEST_SRC = testArgumentos.c testLeerArchivos.c
 
 # Nombre del ejecutable de pruebas
-TEST_EXEC = testArgumentos
+TEST_EXEC = $(TEST_SRC:.c=)
 
 # Regla por defecto
 all: $(TEST_EXEC)
