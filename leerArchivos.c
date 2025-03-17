@@ -19,6 +19,18 @@ int *prioridades; // Prioridades de los recursos. Tamaño m
 int *work; // Igual a recursosDisponibles
 bool *finish; // Tamaño m
 
+// Función para leer una línea no vacía
+char *leerLineaNoVacia(FILE *file, char *buffer, size_t size) {
+    while (fgets(buffer, size, file)) {
+        // Eliminar el salto de línea al final de la línea
+        buffer[strcspn(buffer, "\n")] = 0;
+        if (strlen(buffer) > 0) {
+            return buffer;
+        }
+    }
+    return NULL;
+}
+
 void leerArchivos(int argc, char *argv[]) {
     FILE *file;
     char buffer[256];
@@ -31,7 +43,7 @@ void leerArchivos(int argc, char *argv[]) {
     }
 
     // Se lee la primera línea del archivo
-    if (fgets(buffer, sizeof(buffer), file) == NULL) {
+    if (leerLineaNoVacia(file, buffer, sizeof(buffer)) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
         exit(1);
@@ -48,7 +60,7 @@ void leerArchivos(int argc, char *argv[]) {
     }
 
     // Se lee la segunda línea del archivo
-    if (fgets(buffer, sizeof(buffer), file) == NULL) {
+    if (leerLineaNoVacia(file, buffer, sizeof(buffer)) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
         free(recursosTotales);
@@ -79,7 +91,7 @@ void leerArchivos(int argc, char *argv[]) {
     }
 
     // Se lee la tercera línea del archivo
-    if (fgets(buffer, sizeof(buffer), file) == NULL) {
+    if (leerLineaNoVacia(file, buffer, sizeof(buffer)) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
         free(recursosTotales);
@@ -103,7 +115,7 @@ void leerArchivos(int argc, char *argv[]) {
     }
 
     // Se lee la cuarta línea del archivo
-    if (fgets(buffer, sizeof(buffer), file) == NULL) {
+    if (leerLineaNoVacia(file, buffer, sizeof(buffer)) == NULL) {
         perror("Error: Abriendo archivo");
         fclose(file);
         free(recursosTotales);
@@ -153,7 +165,7 @@ void leerArchivos(int argc, char *argv[]) {
     }
 
     for (int i = 0; i < m; i++) {
-        if (fgets(buffer, sizeof(buffer), file) == NULL) {
+        if (leerLineaNoVacia(file, buffer, sizeof(buffer)) == NULL) {
             perror("Error: Abriendo archivo");
             fclose(file);
             free(recursosTotales);
@@ -161,9 +173,11 @@ void leerArchivos(int argc, char *argv[]) {
             for (int k = 0; k < m; k++) {
                 free(matrizDeAsignacion[k]);
                 free(matrizRecursosTotales[k]);
+                free(matrizDeNecesidades[k]);
             }
             free(matrizDeAsignacion);
             free(matrizRecursosTotales);
+            free(matrizDeNecesidades);
             free(prioridades);
             exit(1);
         }
@@ -182,9 +196,11 @@ void leerArchivos(int argc, char *argv[]) {
                 for (int k = 0; k < m; k++) {
                     free(matrizDeAsignacion[k]);
                     free(matrizRecursosTotales[k]);
+                    free(matrizDeNecesidades[k]);
                 }
                 free(matrizDeAsignacion);
                 free(matrizRecursosTotales);
+                free(matrizDeNecesidades);
                 free(prioridades);
                 exit(1);
             }
@@ -203,9 +219,11 @@ void leerArchivos(int argc, char *argv[]) {
                 for (int k = 0; k < m; k++) {
                     free(matrizDeAsignacion[k]);
                     free(matrizRecursosTotales[k]);
+                    free(matrizDeNecesidades[k]);
                 }
                 free(matrizDeAsignacion);
                 free(matrizRecursosTotales);
+                free(matrizDeNecesidades);
                 free(prioridades);
                 exit(1);
             }
@@ -222,9 +240,11 @@ void leerArchivos(int argc, char *argv[]) {
             for (int k = 0; k < m; k++) {
                 free(matrizDeAsignacion[k]);
                 free(matrizRecursosTotales[k]);
+                free(matrizDeNecesidades[k]);
             }
             free(matrizDeAsignacion);
             free(matrizRecursosTotales);
+            free(matrizDeNecesidades);
             free(prioridades);
             exit(1);
         }
@@ -244,11 +264,12 @@ void leerArchivos(int argc, char *argv[]) {
     for (int i = 0; i < m; i++) {
         free(matrizDeAsignacion[i]);
         free(matrizRecursosTotales[i]);
+        free(matrizDeNecesidades[i]);
     }
     free(matrizDeAsignacion);
     free(matrizRecursosTotales);
+    free(matrizDeNecesidades);
     free(prioridades);
 
     fclose(file);
-
 }
