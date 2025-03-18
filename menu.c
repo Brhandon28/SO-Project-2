@@ -12,9 +12,6 @@ int desplegarMenu(int count, int* secuenciaSegura){
     char opcion[10];
     char proceso[10];
 
-    int idAleatorio;
-    int idPrioridad;
-
     fgets(opcion, 10, stdin);
 
     switch(opcion[0]){
